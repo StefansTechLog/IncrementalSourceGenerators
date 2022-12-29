@@ -15,7 +15,6 @@ namespace GeneratorDebugging
             var inputCompilation = CSharpCompilation.Create("compilationAssemblyName", sourceCode, null, compilationOptions);
 
             var driver = (GeneratorDriver)CSharpGeneratorDriver.Create(generators);
-
             driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
             return driver.GetRunResult();
         }

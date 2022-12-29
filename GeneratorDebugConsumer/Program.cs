@@ -5,6 +5,11 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
+            using (var alice = new Foobar())
+            {
+                Console.WriteLine("in scope");
+            }
+            Console.WriteLine("out of scope");
         }
     }
 
