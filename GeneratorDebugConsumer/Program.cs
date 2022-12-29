@@ -1,16 +1,33 @@
 ﻿namespace GeneratorDebugConsumer
 {
-    public class Program
+    public partial class Program
     {
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
-            using (var alice = new Foobar())
+            using (var foobar = new Foobar())
             {
                 Console.WriteLine("in scope");
+                foobar.NotCollected();
             }
             Console.WriteLine("out of scope");
+
+            var bob = new Bob();
+            bob.NotCollected();
+            var alice = new Alice();
+            alice.NotCollected();
+
+            ClassHelper.GetAllClasses();
         }
+    }
+    public partial class Bob
+    {
+
+    }
+
+    public partial class Alice
+    {
+
     }
 
     public partial class Foobar

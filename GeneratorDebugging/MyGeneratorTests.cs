@@ -53,5 +53,34 @@ namespace GeneratorDebugConsumer
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { markerGenerator, disposableGenerator });
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void CollectVsNotCollectGenerator()
+        {
+            var generator = new CollectVsNotCollectGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace GeneratorDebugConsumer
+{
+    public partial class Foobar
+    {
+
+    }
+
+    public partial class Bob
+    {
+
+    }
+
+    public partial class Alice
+    {
+
+    }
+}
+
+");
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }
