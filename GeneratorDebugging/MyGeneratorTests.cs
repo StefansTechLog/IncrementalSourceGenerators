@@ -82,5 +82,44 @@ namespace GeneratorDebugConsumer
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void SelectWhereGenerator()
+        {
+            var generator = new SelectAndWhereGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace Tutorial
+{
+    public partial class Foobar
+    {
+
+    }
+
+    public static class Bob
+    {
+
+    }
+
+    public class Alice
+    {
+
+    }
+
+    public abstract class Eric
+    {
+
+    }
+
+    public partial class Betty
+    {
+
+    }
+}
+
+");
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }

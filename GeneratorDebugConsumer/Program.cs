@@ -18,6 +18,7 @@
             alice.NotCollected();
 
             ClassHelper.GetAllClasses();
+            ElementHelper.AllDistinctElements();
         }
     }
     public partial class Bob
