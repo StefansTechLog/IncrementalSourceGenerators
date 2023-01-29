@@ -14,23 +14,22 @@ namespace GeneratorLibrary
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-
-            var classesNotCollected = context.SyntaxProvider
-                .CreateSyntaxProvider(SyntaxPredicateFilter, TransformSyntax)
-                .Where(x => x != null);
-
-            context.RegisterImplementationSourceOutput(classesNotCollected, NotCollected);
-
             var classesCollected = context.SyntaxProvider
             .CreateSyntaxProvider(SyntaxPredicateFilter, TransformSyntax)
             .Where(x => x != null)
             .Collect();
 
-            context.RegisterImplementationSourceOutput(classesCollected, Collected);
+            context.RegisterSourceOutput(classesCollected, GenerateOutput_Collected);
 
+
+            var classesNotCollected = context.SyntaxProvider
+                .CreateSyntaxProvider(SyntaxPredicateFilter, TransformSyntax)
+                .Where(x => x != null);
+
+            context.RegisterSourceOutput(classesNotCollected, GenerateOutput_NotCollected);
         }
 
-        private void Collected(SourceProductionContext sourceProductionContext, ImmutableArray<string> classNames)
+        private void GenerateOutput_Collected(SourceProductionContext sourceProductionContext, ImmutableArray<string> classNames)
         {
             var hint = $"Collect_{Guid.NewGuid()}.g.cs";
             var classSourceCode = SourceText.From(@$"
@@ -48,7 +47,7 @@ namespace GeneratorDebugConsumer
             sourceProductionContext.AddSource(hint, classSourceCode);
         }
 
-        private void NotCollected(SourceProductionContext sourceProductionContext, string className)
+        private void GenerateOutput_NotCollected(SourceProductionContext sourceProductionContext, string className)
         {
 
             var hint = $"NoCollect_{Guid.NewGuid()}.g.cs";
@@ -67,12 +66,13 @@ namespace GeneratorDebugConsumer
             sourceProductionContext.AddSource(hint, classSourceCode);
         }
 
+
+
+
         private bool SyntaxPredicateFilter(SyntaxNode syntaxNode, CancellationToken _)
         {
             return syntaxNode is ClassDeclarationSyntax;
         }
-
-
         private string TransformSyntax(GeneratorSyntaxContext syntaxContext, CancellationToken _)
         {
             var classSyntax = syntaxContext.Node as ClassDeclarationSyntax;
