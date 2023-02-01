@@ -1,6 +1,6 @@
 ﻿namespace GeneratorDebugConsumer
 {
-    public partial class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -9,29 +9,38 @@
             {
                 Console.WriteLine("in scope");
                 foobar.NotCollected();
+                foobar.GetNumberOfInterfaces();
             }
             Console.WriteLine("out of scope");
 
             var bob = new Bob();
             bob.NotCollected();
+            bob.GetNumberOfInterfaces();
+
             var alice = new Alice();
             alice.NotCollected();
+            alice.GetNumberOfInterfaces();
 
             ClassHelper.GetAllClasses();
             ElementHelper.AllDistinctElements();
         }
     }
-    public partial class Bob
+
+    public interface Interface1 { }
+    public interface Interface2 { }
+    public interface Interface3 { }
+
+    public partial class Bob : Interface1
     {
 
     }
 
-    public partial class Alice
+    public partial class Alice : Interface1, Interface2
     {
 
     }
 
-    public partial class Foobar
+    public partial class Foobar : Interface1, Interface2, Interface3
     {
         [OnDispose(2)]
         public void Free2()

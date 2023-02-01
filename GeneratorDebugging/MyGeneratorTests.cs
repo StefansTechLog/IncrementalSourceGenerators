@@ -121,5 +121,44 @@ namespace Tutorial
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void WithComparerGenerator()
+        {
+            var generator = new WithComparerGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace GeneratorDebugConsumer
+{
+    public partial class Foobar : IInterfaceA
+    {
+
+    }
+
+    public partial class Barbar : IInterfaceA, IInterfaceB, IInterfaceC
+    {
+
+    }
+
+    public interface IInterfaceA
+    {
+
+    }
+
+    public interface IInterfaceB
+    {
+
+    }
+
+    public interface IInterfaceC
+    {
+
+    }
+}
+
+");
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }
