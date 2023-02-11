@@ -188,5 +188,27 @@ namespace Tutorial
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, new[] { additionalText });
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void ParserOptionsGenerator()
+        {
+            var parserOptions = new CSharpParseOptions(LanguageVersion.CSharp10,
+                DocumentationMode.Parse,
+                SourceCodeKind.Script,
+                new[] { "DEBUG", "dotnet", "subscribe to Stefan's TechLog" });
+
+            var generator = new ParserOptionsGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace Tutorial
+{
+    public class Foobar
+    {
+    }
+}
+");
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, parserOptions);
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }

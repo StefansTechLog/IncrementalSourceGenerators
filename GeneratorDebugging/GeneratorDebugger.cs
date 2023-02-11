@@ -9,7 +9,8 @@ namespace GeneratorDebugging
         internal static GeneratorDriverRunResult RunDebugging(
             IEnumerable<SyntaxTree> sourceCode,
             IIncrementalGenerator[] generators,
-            IEnumerable<AdditionalText>? additionalTexts = null
+            IEnumerable<AdditionalText>? additionalTexts = null,
+            ParseOptions? parseOptions = null
             )
         {
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
@@ -20,6 +21,9 @@ namespace GeneratorDebugging
 
             if (additionalTexts != null)
                 driver = driver.AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts));
+
+            if (parseOptions != null)
+                driver = driver.WithUpdatedParseOptions(parseOptions);
 
             driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
             return driver.GetRunResult();

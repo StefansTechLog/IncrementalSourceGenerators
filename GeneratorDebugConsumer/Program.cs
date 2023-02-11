@@ -23,8 +23,11 @@
 
             ClassHelper.GetAllClasses();
             ElementHelper.AllDistinctElements();
-
             bob.PrintText();
+            MyOptionsHelper.AllErrors();
+            MyOptionsHelper.AllFeatures();
+            MyOptionsHelper.AllPreprocessorSymbols();
+            MyOptionsHelper.Language();
         }
     }
 
