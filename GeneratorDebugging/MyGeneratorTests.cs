@@ -160,5 +160,33 @@ namespace GeneratorDebugConsumer
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new IIncrementalGenerator[] { generator });
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void AdditionalTextGenerator()
+        {
+            var textfile = "Foobar.txt";
+            var text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+            var additionalText = new MockAdditionalText(text, textfile);
+
+            var generator = new AdditionalTextsGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace Tutorial
+{
+    public partial class Foobar
+    {
+
+    }
+
+    public partial class Betty
+    {
+
+    }
+}
+
+");
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, new[] { additionalText });
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }

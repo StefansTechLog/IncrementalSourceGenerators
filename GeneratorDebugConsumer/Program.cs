@@ -23,24 +23,31 @@
 
             ClassHelper.GetAllClasses();
             ElementHelper.AllDistinctElements();
+
+            bob.PrintText();
         }
     }
 
-    public interface Interface1 { }
-    public interface Interface2 { }
-    public interface Interface3 { }
+    public interface IInterface1 { }
+    public interface IInterface2 { }
+    public interface IInterface3 { }
 
-    public partial class Bob : Interface1
+    public partial class Betty
     {
 
     }
 
-    public partial class Alice : Interface1, Interface2
+    public partial class Bob : IInterface1
     {
 
     }
 
-    public partial class Foobar : Interface1, Interface2, Interface3
+    public partial class Alice : IInterface1, IInterface2
+    {
+
+    }
+
+    public partial class Foobar : IInterface1, IInterface2, IInterface3
     {
         [OnDispose(2)]
         public void Free2()
