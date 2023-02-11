@@ -10,12 +10,13 @@ namespace GeneratorDebugging
             IEnumerable<SyntaxTree> sourceCode,
             IIncrementalGenerator[] generators,
             IEnumerable<AdditionalText>? additionalTexts = null,
-            ParseOptions? parseOptions = null
+            ParseOptions? parseOptions = null,
+            IEnumerable<MetadataReference>? references = null
             )
         {
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
-            var inputCompilation = CSharpCompilation.Create("compilationAssemblyName", sourceCode, null, compilationOptions);
+            var inputCompilation = CSharpCompilation.Create("compilationAssemblyName", sourceCode, references, compilationOptions);
 
             var driver = (GeneratorDriver)CSharpGeneratorDriver.Create(generators);
 

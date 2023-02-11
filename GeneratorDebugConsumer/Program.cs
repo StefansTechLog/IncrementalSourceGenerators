@@ -28,6 +28,8 @@
             MyOptionsHelper.AllFeatures();
             MyOptionsHelper.AllPreprocessorSymbols();
             MyOptionsHelper.Language();
+
+            MetadataReferenceHelper.AllReferences();
         }
     }
 

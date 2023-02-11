@@ -88,7 +88,7 @@ namespace GeneratorDebugConsumer
         {
             var generator = new SelectAndWhereGenerator();
             var ProgramCode = CSharpSyntaxTree.ParseText(@"
-namespace Tutorial
+namespace GeneratorDebugConsumer
 {
     public partial class Foobar
     {
@@ -170,7 +170,7 @@ namespace GeneratorDebugConsumer
 
             var generator = new AdditionalTextsGenerator();
             var ProgramCode = CSharpSyntaxTree.ParseText(@"
-namespace Tutorial
+namespace GeneratorDebugConsumer
 {
     public partial class Foobar
     {
@@ -199,7 +199,7 @@ namespace Tutorial
 
             var generator = new ParserOptionsGenerator();
             var ProgramCode = CSharpSyntaxTree.ParseText(@"
-namespace Tutorial
+namespace GeneratorDebugConsumer
 {
     public class Foobar
     {
@@ -208,6 +208,28 @@ namespace Tutorial
 ");
 
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, parserOptions);
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
+
+        [Fact]
+        public void MetadataReferenceGenerator()
+        {
+            var generator = new MetadataGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace GeneratorDebugConsumer
+{
+    public class Foobar
+    {
+    }
+}
+");
+            
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                                      .Where(assembly => !assembly.IsDynamic)
+                                      .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
+                                      .Cast<MetadataReference>();
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, null, references);
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
     }
