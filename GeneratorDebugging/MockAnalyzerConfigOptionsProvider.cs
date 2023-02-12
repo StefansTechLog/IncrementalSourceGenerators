@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace GeneratorDebugging
 {
-    public class MockProvider : AnalyzerConfigOptionsProvider
+    public class MockAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
     {
         public override AnalyzerConfigOptions GlobalOptions { get; }
 
