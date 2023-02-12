@@ -232,5 +232,37 @@ namespace GeneratorDebugConsumer
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, null, references);
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void AnalyzerConfigOptionsGenerator()
+        {
+            var generator = new AnalyzerConfigOptionsProviderGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace Tutorial
+{
+    public class Juicebox
+    {
+    }
+
+    public class Kilohertz
+    {
+    }
+
+    public class Lemontree
+    {
+    }
+}
+");
+            var options = new Dictionary<string, string>
+            {
+                {"dotnet_diagnostic.ABC001.should_not_start_with_j", "starting with j is unusual"},
+                {"dotnet_diagnostic.ABC001.should_not_start_with_k", "you really should not start with k"},
+                {"dotnet_diagnostic.ABC001.must_not_start_with_l", "starting with l is absolutely forbidden!"}
+            };
+            var analyzerCfgOptionsProvider = new MockAnalyzerConfigOptionsProvider(options);
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, null, null, analyzerCfgOptionsProvider);
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }

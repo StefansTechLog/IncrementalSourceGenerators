@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
 namespace GeneratorDebugging
@@ -11,7 +12,8 @@ namespace GeneratorDebugging
             IIncrementalGenerator[] generators,
             IEnumerable<AdditionalText>? additionalTexts = null,
             ParseOptions? parseOptions = null,
-            IEnumerable<MetadataReference>? references = null
+            IEnumerable<MetadataReference>? references = null,
+            AnalyzerConfigOptionsProvider? analyzerCfgProvider = null
             )
         {
             var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
@@ -25,6 +27,9 @@ namespace GeneratorDebugging
 
             if (parseOptions != null)
                 driver = driver.WithUpdatedParseOptions(parseOptions);
+
+            if (analyzerCfgProvider != null)
+                driver = driver.WithUpdatedAnalyzerConfigOptions(analyzerCfgProvider);
 
             driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out _, out _);
             return driver.GetRunResult();
