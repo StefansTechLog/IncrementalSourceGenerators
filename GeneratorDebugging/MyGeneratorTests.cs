@@ -238,7 +238,7 @@ namespace GeneratorDebugConsumer
         {
             var generator = new AnalyzerConfigOptionsProviderGenerator();
             var ProgramCode = CSharpSyntaxTree.ParseText(@"
-namespace Tutorial
+namespace GeneratorDebugConsumer
 {
     public class Juicebox
     {

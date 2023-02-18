@@ -1,8 +1,9 @@
-﻿namespace GeneratorDebugConsumer
+﻿#pragma warning disable CA1822 // Mark members as static
+namespace GeneratorDebugConsumer
 {
     public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Hello, World!");
             using (var foobar = new Foobar())
@@ -33,24 +34,18 @@
         }
     }
 
+    //public partial class Juicebox { }
+    //public partial class Kilohertz { }
+    //public partial class Lemontree { }
+
+
     public interface IInterface1 { }
     public interface IInterface2 { }
     public interface IInterface3 { }
 
-    public partial class Betty
-    {
-
-    }
-
-    public partial class Bob : IInterface1
-    {
-
-    }
-
-    public partial class Alice : IInterface1, IInterface2
-    {
-
-    }
+    public partial class Betty { }
+    public partial class Bob : IInterface1 { }
+    public partial class Alice : IInterface1, IInterface2 { }
 
     public partial class Foobar : IInterface1, IInterface2, IInterface3
     {
@@ -83,3 +78,4 @@
         }
     }
 }
+#pragma warning restore CA1822 // Mark members as static

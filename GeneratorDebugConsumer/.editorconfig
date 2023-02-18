@@ -1,0 +1,15 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+
+# Xml files
+[*.xml]
+indent_size = 2
+
+# CSharp files
+[*.cs]
+dotnet_diagnostic.ABC001.should_not_start_with_j = starting with j is unusual
+dotnet_diagnostic.ABC001.should_not_start_with_k = you really should not start with k
+dotnet_diagnostic.ABC001.must_not_start_with_l = starting with l is absolutely forbidden!

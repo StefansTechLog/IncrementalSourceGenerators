@@ -28,12 +28,14 @@ namespace GeneratorLibrary
             var classSyntax = result.classSyntax;
             var cfgProvider = result.configProvider.GetOptions(classSyntax.SyntaxTree);
             var className = result.classSyntax.Identifier.ToString();
+            var location = classSyntax.GetLocation();
 
             if (className.StartsWith("j") || className.StartsWith("J"))
             {
                 if (cfgProvider.TryGetValue(MessageRule, out var value))
                 {
-                    throw new Exception(value);
+                    //throw new Exception(value);
+                    AddDiagnostics(sourceProductionContext, DiagnosticSeverity.Info, location, value);
                 }
             }
 
@@ -41,7 +43,8 @@ namespace GeneratorLibrary
             {
                 if (cfgProvider.TryGetValue(WarningRule, out var value))
                 {
-                    throw new Exception(value);
+                    //throw new Exception(value);
+                    AddDiagnostics(sourceProductionContext, DiagnosticSeverity.Warning, location, value);
                 }
             }
 
@@ -49,9 +52,23 @@ namespace GeneratorLibrary
             {
                 if (cfgProvider.TryGetValue(ErrorRule, out var value))
                 {
-                    throw new Exception(value);
+                    //throw new Exception(value);
+                    AddDiagnostics(sourceProductionContext, DiagnosticSeverity.Error, location, value);
                 }
             }
+        }
+        private void AddDiagnostics(SourceProductionContext sourceProductionContext, DiagnosticSeverity diagnosticSeverity, Location location, string message)
+        {
+            var diagnostocDescription = new DiagnosticDescriptor(
+                id: "ABC001",
+                title: "My demo diagnostics",
+                messageFormat: message,
+                category: "demostration",
+                defaultSeverity: diagnosticSeverity,
+                isEnabledByDefault: true);
+
+            var diagnostics = Diagnostic.Create(diagnostocDescription, location);
+            sourceProductionContext.ReportDiagnostic(diagnostics);
         }
 
         private bool SyntaxPredicateFilter(SyntaxNode syntaxNode, CancellationToken _)

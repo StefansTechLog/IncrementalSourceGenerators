@@ -14,5 +14,13 @@
 	<ItemGroup>
 		<AdditionalFiles Include="Bob.txt" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\Stefan\source\repos\IncrementalSourceGenerators\GeneratorDebugConsumer\.editorconfig" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <None Include="C:\Users\Stefan\source\repos\IncrementalSourceGenerators\GeneratorDebugConsumer\.editorconfig" />
+	</ItemGroup>
 
 </Project>
