@@ -11,8 +11,9 @@ namespace GeneratorLibrary
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
+            var fullyQualifiedMetadataName = "System.SerializableAttribute";
             var results = context.SyntaxProvider
-                .ForAttributeWithMetadataName("System.SerializableAttribute", SyntaxPredicateFilter, TransformSyntax);
+                .ForAttributeWithMetadataName(fullyQualifiedMetadataName, SyntaxPredicateFilter, TransformSyntax);
 
             context.RegisterSourceOutput(results, GenerateOutput);
         }
