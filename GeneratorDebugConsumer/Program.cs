@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CA1822 // Mark members as static
+
 namespace GeneratorDebugConsumer
 {
     public class Program
@@ -31,6 +32,7 @@ namespace GeneratorDebugConsumer
             MyOptionsHelper.Language();
 
             MetadataReferenceHelper.AllReferences();
+            Console.WriteLine(bob.GetAsSerialized());
         }
     }
 
@@ -43,8 +45,16 @@ namespace GeneratorDebugConsumer
     public interface IInterface2 { }
     public interface IInterface3 { }
 
+
     public partial class Betty { }
-    public partial class Bob : IInterface1 { }
+
+    [Serializable]
+    public partial class Bob : IInterface1
+    {
+        public int Age { get; set; } = 31;
+        public string HairColor { get; set; } = "brown";
+        public bool IsMarried { get; set; } = false;
+    }
     public partial class Alice : IInterface1, IInterface2 { }
 
     public partial class Foobar : IInterface1, IInterface2, IInterface3

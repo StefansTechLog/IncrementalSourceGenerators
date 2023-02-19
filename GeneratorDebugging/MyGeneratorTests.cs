@@ -264,5 +264,29 @@ namespace GeneratorDebugConsumer
             var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, null, null, null, analyzerCfgOptionsProvider);
             Debug.WriteLine(result.GeneratedTrees.Count());
         }
+
+        [Fact]
+        public void ForAttributeWithMetadataNameGenerator()
+        {
+            var generator = new ForAttributeWithMetadataNameGenerator();
+            var ProgramCode = CSharpSyntaxTree.ParseText(@"
+namespace GeneratorDebugConsumer
+{
+
+    [System.SerializableAttribute]
+    public class Foobar
+    {
+    }
+}
+");
+
+            var references = AppDomain.CurrentDomain.GetAssemblies()
+                                      .Where(assembly => !assembly.IsDynamic)
+                                      .Select(assembly => MetadataReference.CreateFromFile(assembly.Location))
+                                      .Cast<MetadataReference>();
+
+            var result = GeneratorDebugger.RunDebugging(new[] { ProgramCode }, new[] { generator }, references: references);
+            Debug.WriteLine(result.GeneratedTrees.Count());
+        }
     }
 }
